@@ -1,0 +1,31 @@
+# Python and editor files
+__pycache__/
+*.py[cod]
+.DS_Store
+.idea/
+.vscode/
+
+# Python environments and caches
+.venv/
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# Large experiment artifacts
+data/
+models/
+checkpoints/
+logs/
+videos/
+wandb/
+tensorboard/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.mp4
+
+# Credentials
+.env
+*.pem
+id_*
