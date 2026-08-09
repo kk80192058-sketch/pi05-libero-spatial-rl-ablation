@@ -14,6 +14,7 @@ export MUJOCO_GL="${MUJOCO_GL:-osmesa}"
 export PYOPENGL_PLATFORM="${PYOPENGL_PLATFORM:-osmesa}"
 
 cd "$RLINF_DIR"
+source "$RLINF_DIR/.venv/bin/activate"
 bash evaluations/run_eval.sh libero_spatial_openpi_pi05_eval \
   rollout.model.model_path="$MODEL_PATH" \
   env.eval.total_num_envs=10 \
