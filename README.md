@@ -76,3 +76,17 @@ bash scripts/run_task6_sft20.sh
 ```
 
 训练完成后，会用与 A1 相同的 task 6、10 个固定 reset state、240-step 上限评估 B20；随后再以 B20 checkpoint 作为 PPO 的起点得到 C20。所有最终结论只填写真实日志中的结果。
+
+## B20 + PPO（C20）
+
+当 B20 在第 500 步保存 checkpoint 后，以其 `actor` 子目录作为 C20 的初始化：
+
+```bash
+RLINF_DIR=/root/autodl-tmp/vla-rl/RLinf \
+PROJECT_DIR=/root/autodl-tmp/vla-rl/project \
+SFT_CHECKPOINT=/root/autodl-tmp/vla-rl/results/task6_sft20_run1/task6_sft20/checkpoints/global_step_500/actor \
+OUTPUT_DIR=/root/autodl-tmp/vla-rl/results/task6_sft20_ppo_run1 \
+bash scripts/run_task6_sft20_ppo.sh
+```
+
+脚本会先检查 SFT checkpoint 目录存在，再复用与 A1 完全相同的 PPO 预算（10 epoch、8 个并行环境）。因此 B20→C20 的差异只来自初始策略，而不是悄悄改变了 PPO 训练条件。
