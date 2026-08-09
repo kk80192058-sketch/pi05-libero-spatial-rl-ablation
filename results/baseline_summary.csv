@@ -1,2 +1,3 @@
 run_id,policy,suite,task_id,trial_id,seed,max_steps,num_trajectories,success_once,success_at_end,return,scope
 20260809_task0_trial0,pi05_sft,libero_spatial,0,0,0,240,1,1.0,1.0,1.0,smoke_test_not_benchmark
+20260809_task0_trials0-9,pi05_sft,libero_spatial,0,0-9,0,240,10,1.0,1.0,1.0,task0_10_reset_states_not_full_benchmark
