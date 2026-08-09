@@ -1,0 +1,11 @@
+task_id,reset_window,success_once,success_at_end,reward,log
+9,0-9,0.3,0.2,0.0020142018,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_9_resets_0_9/console.log
+6,0-9,0.6,0.6,0.0062644095,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_6_resets_0_9/console.log
+4,0-9,0.7,0.4,0.0049533374,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_4_resets_0_9/console.log
+3,0-9,0.8,0.4,0.008823363,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_3_resets_0_9/console.log
+5,0-9,0.8,0.8,0.009575445,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_5_resets_0_9/console.log
+8,0-9,0.9,0.8,0.008402592,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_8_resets_0_9/console.log
+0,0-9,1.0,1.0,0.0136765,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_0_resets_0_9/console.log
+1,0-9,1.0,1.0,0.0099818,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_1_resets_0_9/console.log
+2,0-9,1.0,1.0,0.008865888,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_2_resets_0_9/console.log
+7,0-9,1.0,1.0,0.0094253365,/root/autodl-tmp/vla-rl/results/spatial_diagnostic_a0_seen/task_7_resets_0_9/console.log
