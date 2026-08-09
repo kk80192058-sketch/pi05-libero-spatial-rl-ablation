@@ -39,3 +39,16 @@ python train_vla_sft.py \
   runner.logger.log_path="$OUTPUT_DIR" \
   runner.max_steps="$MAX_STEPS" \
   runner.save_interval="$SAVE_INTERVAL"
+
+# RLinf's FSDP SFT checkpoint stores model weights but not OpenPI's task
+# normalization assets.  The SFT policy keeps the same LIBERO action space as
+# its initialization, so copy those immutable assets beside every saved actor
+# checkpoint.  This makes each checkpoint directly usable by evaluation/PPO.
+norm_source="$MODEL_PATH/physical-intelligence"
+if [[ ! -d "$norm_source/libero" ]]; then
+  echo "Missing OpenPI LIBERO normalization assets: $norm_source/libero" >&2
+  exit 3
+fi
+while IFS= read -r actor_dir; do
+  cp -a "$norm_source" "$actor_dir/"
+done < <(find "$OUTPUT_DIR" -type d -path '*/checkpoints/global_step_*/actor' | sort)
