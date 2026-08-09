@@ -15,13 +15,24 @@
 - [x] 筛选出有提升空间的主任务：task 6 的 SFT 基线为 6/10 成功。
 - [x] 下载 task 6 的全部 29 条 demonstration，并固定 20/9 train/holdout 划分。
 - [x] 校验 20 条 task 6 训练示范可被 LeRobot/RLinf 数据加载器读取（8,082 帧）。
-- [ ] 训练 task 6 的 20-demo few-shot SFT 策略。
-- [ ] 对 task 6 的 π0.5 SFT 策略执行 PPO 在线后训练。
-- [ ] 对 20-demo SFT 策略执行 PPO 在线后训练。
-- [ ] 比较 SFT-only 与 SFT + PPO 的成功率和样本效率。
+- [x] 训练 task 6 的 20-demo few-shot SFT 策略（500 steps）。
+- [x] 对公开 π0.5 SFT 策略执行 10 epoch PPO 在线后训练（A1）。
+- [x] 验证 20-demo SFT checkpoint 可作为 PPO 初始化并完成真实 PPO 更新（C20 smoke）。
+- [x] 比较公开 SFT、公开 SFT + PPO 与 20-demo SFT 的固定 10-trial 成功率。
 
 当前单条成功 rollout 仅用于验证链路，**不作为正式 benchmark 结果**。
 当前的 10-trial 结果只覆盖指定 Spatial 子任务，不能表述为整个 benchmark 的成绩。
+
+## 当前正式结果（固定 task 6 / 10 trial / 最多 240 steps）
+
+| 组别 | 训练 | `success_once` | `success_at_end` | 说明 |
+| --- | --- | ---: | ---: | --- |
+| A0 | 公开 π0.5 SFT（4090） | 0.6 | 未单独汇总 | 早期固定 task 筛选基线 |
+| A0 | 公开 π0.5 SFT（A800） | 0.8 | 0.4 | 独立一次采样，显示策略存在随机性 |
+| A1 | A0 + 10 epoch 在线 PPO | 1.0 | 0.9 | A800 正式训练完成后的最终评测 |
+| B20 | A0 + 20 条 task 6 演示、500-step SFT | 1.0 | 0.9 | A800 正式 SFT checkpoint 的重新加载评测 |
+
+`success_once` 是主指标：任务达成后策略仍会继续出动作，可能把已完成状态扰乱，因此 `success_at_end` 只作辅助参考。C20 已完成 1 epoch / 2 环境的 PPO 真实更新冒烟，但由于 B20 在当前 10-trial 协议上已经达到主指标上限，未再投入约 47 分钟做 10 epoch 长跑；不能把 C20 smoke 写成正式性能结果。
 
 ## 结构
 

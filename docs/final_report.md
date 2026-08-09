@@ -91,12 +91,14 @@ B20 使用公开 π0.5 LIBERO SFT checkpoint 作为初始化，只更新其动�
 | 4090 baseline | task 6, trial 0–9 | `success_once=0.6` | 选定 PPO 目标 |
 | A800 pre-PPO | task 6, trial 0–9 | `success_once=0.8` | 单次随机采样；用于记录方差，不和 0.6 混为确定值 |
 | A800 PPO smoke | 2 env × 1 epoch | rollout、反向传播、权重同步均成功 | 不是效果结论 |
-| A800 formal PPO | 8 env × 10 epoch | 待训练完成 | 填入 epoch 5、10 checkpoint 与评测 |
+| A800 formal PPO (A1) | 8 env × 10 epoch | epoch 10: `success_once=1.0`，`success_at_end=0.9` | 正式训练完成，耗时约 46 分 56 秒 |
+| A800 few-shot SFT (B20) | 20 条轨迹，500 steps | `success_once=1.0`，`success_at_end=0.9` | checkpoint 重新加载后按同协议评测 |
+| A800 C20 PPO smoke | B20 初始化，2 env × 1 epoch | rollout、反向传播、权重同步成功 | 仅验证链路，不作为性能结果 |
 
 ## 5. 分析计划
 
-1. 绘制每 epoch 的 rollout success、reward、policy loss、value loss、KL 和 gradient norm。
-2. 比较 pre-PPO 与 epoch 5 / epoch 10 的 `success_once` 均值。
+1. 记录每 epoch 的 rollout success、reward、policy loss、value loss、KL 和 gradient norm；A1 的 epoch 5、10 checkpoint 都已保存。
+2. 比较公开 SFT、A1 与 B20 的固定 10-trial `success_once`。A1 与 B20 都达到本协议的 1.0 上限，因此不能从单次 10-trial 结果断言二者孰优。
 3. 对失败 trial 做定性归类：抓取失败、物体定位偏差、放置不稳定、成功后扰动。
 4. 说明训练环境、GPU、随机性、任务选择和视频兼容性对结论的限制。
 
@@ -108,6 +110,10 @@ B20 使用公开 π0.5 LIBERO SFT checkpoint 作为初始化，只更新其动�
 - 实验日志：`docs/experiment_log.md`
 - 指标汇总：`results/baseline_summary.csv`
 
-## 7. 结论（训练结束后填写）
+## 7. 结论
 
-本项目的结论应严格限于“公开 π0.5 SFT checkpoint 在固定 LIBERO-Spatial task 6 协议下，经过指定预算的在线 PPO 后，`success_once` 从 ___ 变化到 ___”。不得外推为整个 LIBERO benchmark、π0.5 的通用性能或新算法结论。
+在固定 LIBERO-Spatial task 6、10 个 reset state、每条最多 240 步的单次评测协议下，公开 π0.5 SFT checkpoint 的历史 task-6 基线为 `success_once=0.6`（4090），迁移到 A800 后另一次采样为 0.8，说明该策略存在采样方差。经过 8 个并行环境、10 epoch 的在线 PPO（A1），最终评测为 `success_once=1.0`、`success_at_end=0.9`。这给出了“在该固定单任务协议、该训练预算下，PPO 后策略达到了评测上限”的可复现证据。
+
+以固定 20 条 task 6 专家轨迹做 500-step few-shot SFT（B20）后，重新加载 checkpoint 的同协议评测同样得到 `success_once=1.0`、`success_at_end=0.9`。B20 已达到主指标上限，因此 C20 仅完成了 1 epoch / 2 环境的 PPO 链路验证，未进行不太可能再提升 `success_once` 的 10 epoch 长跑。该决策是成本控制，不是声称 C20 有性能结果。
+
+结论不外推到完整 LIBERO benchmark、其他任务、真实机器人或 π0.5 的通用能力。更严格的比较需要增加独立随机种子、更多 reset state 或改用更难的非饱和任务。

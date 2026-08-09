@@ -121,3 +121,26 @@ task 0 已饱和（10 / 10），不适合验证 PPO 的增益；task 6 的 60% �
 ### A800 训练前评估
 
 在相同 task 6 的 10-trial 协议下，本次采样得到 `success_once=0.8`、`success_at_end=0.4`。模型策略采样本身存在随机性，且成功后继续执行可使任务状态被扰动；项目将以 `success_once` 为主指标，并在正式前后用相同次数的重复评估报告均值，避免将单次 0.6 或 0.8 误写成稳定性能。
+
+## 2026-08-10：A1 正式 PPO 完成
+
+- 任务：LIBERO-Spatial task 6；8 个并行训练环境；10 epoch。
+- checkpoint：epoch 5 与 epoch 10 均成功保存为 `global_step_5`、`global_step_10`。
+- 最终固定 10-trial 评测：`success_once=1.0`、`success_at_end=0.9`、`return=1.0`。
+- 总训练 wall time：约 46 分 56 秒；其中末轮同时包含 8 条 rollout、PPO actor/critic 更新、checkpoint 与 10 条评测。
+
+这是主线 A0→A1 的正式结果。训练第 10 轮用于更新的 8 条 rollout `success_once=0.75`，与最终固定评测不同，不能混写为最终成功率。
+
+## 2026-08-10：B20 few-shot SFT 与 checkpoint 兼容性
+
+- 数据：固定 task 6 训练集 20 条轨迹、8,082 帧；500 SFT steps；batch size 8；学习率 `5e-6`。
+- 初次 SFT backward 触发 OpenPI/FSDP view-inplace 冲突。单 A800 下改用 RLinf 官方 π0.5 SFT 同样采用的 `no_shard`，2-step smoke 后反向传播成功。
+- 正式 500-step SFT 完成，保存 `global_step_250` 与 `global_step_500`。
+- SFT 的 FSDP checkpoint 默认没有复制 OpenPI 的 LIBERO `norm_stats.json`；评测器首次加载时报缺文件。已将公共 checkpoint 中不变的 `physical-intelligence/libero` 归一化资产复制到每个 SFT actor checkpoint，并固化到启动脚本。
+- 修复后 B20 的 checkpoint 可被 LIBERO 重新加载，固定 10-trial 评测为 `success_once=1.0`、`success_at_end=0.9`、`return=1.0`。
+
+## 2026-08-10：C20 PPO smoke 与预算决策
+
+B20 的 `global_step_500/actor` 加上归一化资产后，已在 PPO 的 actor 与 rollout 两端成功加载。C20 以 2 个并行环境进行 1 epoch PPO 冒烟，完成 rollout、GAE/return、actor/critic backward 与权重同步。初次 smoke 的保存/评测频率参数不满足框架整除约束，修正为不保存的 smoke 后成功。
+
+由于 B20 在主指标 `success_once` 的固定 10-trial 协议上已达到 1.0，上限下继续运行与 A1 同预算的 10 epoch C20 不太可能证明额外提升，且预计需要约 47 分钟 A800 时间。因此本项目明确将 C20 定义为**链路验证**而非性能结果，并停止在最终 smoke 评测阶段的无必要计算。后续若切换到更难、未饱和任务，可重新启用 `scripts/run_task6_sft20_ppo.sh` 做完整 C20。
