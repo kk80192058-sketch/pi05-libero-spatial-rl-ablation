@@ -34,6 +34,12 @@
 
 `success_once` 是主指标：任务达成后策略仍会继续出动作，可能把已完成状态扰乱，因此 `success_at_end` 只作辅助参考。C20 已完成 1 epoch / 2 环境的 PPO 真实更新冒烟，但由于 B20 在当前 10-trial 协议上已经达到主指标上限，未再投入约 47 分钟做 10 epoch 长跑；不能把 C20 smoke 写成正式性能结果。
 
+## 多任务升级实验
+
+下一阶段使用 10 个 Spatial task 的系统诊断选择不饱和的训练任务。每个 task 都会评测两个互不重叠的初始状态窗口：trial 0–9（已见窗口）和 trial 10–19（未见窗口），每个窗口 10 条轨迹、每条至多 240 步。
+
+RLinf 默认只能从 task 的第一个 reset state 开始顺序评测。本项目用 `patches/rlinf_eval_reset_offset.patch` 增加了只影响评测起点的 `eval_reset_start_idx`；不改环境、模型或奖励。`scripts/run_libero_task_window_eval.sh` 是对应的可复现启动脚本。
+
 ## 结构
 
 ```text

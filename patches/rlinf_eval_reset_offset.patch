@@ -1,0 +1,17 @@
+diff --git a/rlinf/envs/libero/libero_env.py b/rlinf/envs/libero/libero_env.py
+--- a/rlinf/envs/libero/libero_env.py
++++ b/rlinf/envs/libero/libero_env.py
+@@ -131,9 +131,12 @@ class LiberoEnv(gym.Env):
+         self.ignore_terminations = cfg.ignore_terminations
+         self.auto_reset = cfg.auto_reset
+         self.is_eval = cfg.get("is_eval", False)
+ 
+         self._generator = np.random.default_rng(seed=self.seed)
+         self._generator_ordered = np.random.default_rng(seed=0)
+-        self.start_idx = 0
++        # Evaluation normally starts from the first ordered reset state.  This
++        # optional offset lets a fixed protocol evaluate a disjoint window
++        # (for example trials 10-19) without changing the task suite.
++        self.start_idx = int(cfg.get("eval_reset_start_idx", 0))
+ 
+         self.task_suite: Benchmark = get_benchmark_overridden(cfg.task_suite_name)()
