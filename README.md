@@ -14,6 +14,7 @@
 - [x] 建立 task 0、10 个初始状态的 SFT 小基线（10/10 成功）。
 - [x] 筛选出有提升空间的主任务：task 6 的 SFT 基线为 6/10 成功。
 - [x] 下载 task 6 的全部 29 条 demonstration，并固定 20/9 train/holdout 划分。
+- [x] 校验 20 条 task 6 训练示范可被 LeRobot/RLinf 数据加载器读取（8,082 帧）。
 - [ ] 训练 task 6 的 20-demo few-shot SFT 策略。
 - [ ] 对 task 6 的 π0.5 SFT 策略执行 PPO 在线后训练。
 - [ ] 对 20-demo SFT 策略执行 PPO 在线后训练。
@@ -60,3 +61,18 @@ bash evaluations/run_eval.sh libero_spatial_openpi_pi05_eval \
 正式结果将固定任务、随机种子、评估 episode 数和最大步数，并报告 success rate。单个 episode 的 `success_once=1` 只表示该轨迹成功，不能代表泛化性能。
 
 本项目当前的小基线固定为：`task_id=0`、10 个不同 reset state、`max_steps=240`、`seed=0`，因此成功率为 `successes / 10`。
+
+## 少样本 SFT（B20）
+
+`configs/libero_task6_sft20_pi05.yaml` 固定了 B20 组的主要超参数：从公共 π0.5 LIBERO SFT 权重开始、20 条 task 6 示范、500 个更新步、batch size 8、学习率 `5e-6`。实际运行时使用：
+
+```bash
+RLINF_DIR=/root/autodl-tmp/vla-rl/RLinf \
+PROJECT_DIR=/root/autodl-tmp/vla-rl/project \
+MODEL_PATH=/root/autodl-tmp/vla-rl/models/RLinf-Pi05-LIBERO-SFT \
+DATA_PATH=/root/autodl-tmp/vla-rl/data/libero_spatial_task6_train20 \
+OUTPUT_DIR=/root/autodl-tmp/vla-rl/results/task6_sft20_run1 \
+bash scripts/run_task6_sft20.sh
+```
+
+训练完成后，会用与 A1 相同的 task 6、10 个固定 reset state、240-step 上限评估 B20；随后再以 B20 checkpoint 作为 PPO 的起点得到 C20。所有最终结论只填写真实日志中的结果。
