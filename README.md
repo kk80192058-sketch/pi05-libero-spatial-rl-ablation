@@ -2,16 +2,7 @@
 
 一个面向 VLA / 强化学习实习的可复现实验项目。项目使用 RLinf、OpenPI π0.5 和 LIBERO-Spatial 仿真环境，研究少量专家演示（SFT）与在线 PPO 后训练分别、以及组合后，能否提升机器人策略的任务成功率。
 
-## 项目结构：两阶段，而不是删除旧实验
-
-### 阶段 1：task 6 可行性验证（已完成）
-
-先在 LIBERO-Spatial task 6 上跑通环境、公开 π0.5 checkpoint、20 条演示 SFT、PPO 和 checkpoint 复测链路。它证明整套训练管线可以工作，但 task 6 的 SFT / PPO 结果很快到达 10 次评测的上限，因此**不再作为正式消融结论**。
-
-- 完整历史报告：[docs/final_report.md](docs/final_report.md)
-- 训练过程与异常记录：[docs/experiment_log.md](docs/experiment_log.md)
-
-### 阶段 2：task 9 正式系统消融（进行中）
+## 正式系统消融：task 9（进行中）
 
 不再随意挑单一任务。先以相同协议筛查全部 10 个 LIBERO-Spatial task，再选择基础成功率最低且未饱和的 task 9：
 
@@ -121,4 +112,4 @@ scripts/       数据准备、评测、SFT、PPO 启动脚本
 
 - `n/10` 同时写为百分比，例如 `30%（3/10）`；不能把单条视频当 benchmark。
 - 10 条轨迹的方差仍较大，最终报告会明确样本数和限制，而不把单次结果包装为通用能力结论。
-- task 6 的历史结果保留，但不与 task 9 的正式 2×2 消融混为一谈。
+- 10-task 筛查表保留每个 task 的结果，作为 task 9 被选为主实验任务的依据；它不是对其他 task 的训练结论。
