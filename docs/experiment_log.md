@@ -92,3 +92,11 @@ task 0 已饱和（10 / 10），不适合验证 PPO 的增益；task 6 的 60% �
 - 本地服务器目录：`/root/autodl-tmp/vla-rl/data/libero_spatial_task6_10demos`
 
 注：数据集的 episode 编号按任务交错，而非“前 10 条都属于 task 0”。此前下载的 `episode_000000`–`episode_000009` 是混合格式检查样本，不能作为 task 0 的十条 demonstration。
+
+## 2026-08-09：PPO 配置 dry-run
+
+使用 RLinf 官方 `libero_spatial_ppo_openpi_pi05` 配置，以 `--cfg job` 仅解析配置；未加载模型权重、未创建训练 worker、未发生训练。
+
+本次验证的最小参数为：8 个训练环境、1 个 rollout epoch、micro/global batch 均为 8、1 个训练 epoch、评测视频关闭。模型 actor 和 rollout 路径均正确指向 `RLinf-Pi05-LIBERO-SFT`，且 π0.5 actor 的 value head 正确启用。
+
+首次尝试传入重复的 `--config-path`，Hydra 将其拼成不存在的路径；切换到 `examples/embodiment` 工作目录后成功。这一问题已纳入运行脚本的目录处理。
