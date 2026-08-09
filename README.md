@@ -34,7 +34,7 @@
 
 ## 环境与资源
 
-- 4090 24GB：环境配置、rollout 调试与早期 task 6 验证
+- 4090 24GB：环境配置与 rollout 调试
 - A800 80GB：task 9 的正式 SFT、PPO 与多窗口评测
 - 框架：RLinf + OpenPI π0.5 + LIBERO / MuJoCo
 
@@ -102,7 +102,7 @@ bash scripts/run_libero_task_ppo.sh
 
 ```text
 configs/       SFT 配置
-docs/          task 6 历史报告、实验日志、最终报告
+docs/          task 9 实验计划与最终报告
 patches/       RLinf 评测 reset-window 补丁
 results/       可提交的小型指标汇总 CSV
 scripts/       数据准备、评测、SFT、PPO 启动脚本
