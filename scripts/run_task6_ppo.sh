@@ -11,6 +11,11 @@ set -euo pipefail
 : "${MODEL_PATH:?Set MODEL_PATH to the π0.5 SFT checkpoint directory}"
 : "${OUTPUT_DIR:?Set OUTPUT_DIR for checkpoints and TensorBoard logs}"
 
+MAX_EPOCHS="${MAX_EPOCHS:-10}"
+VAL_INTERVAL="${VAL_INTERVAL:-5}"
+SAVE_INTERVAL="${SAVE_INTERVAL:-5}"
+TRAIN_ENVS="${TRAIN_ENVS:-8}"
+
 export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
 export MUJOCO_GL="${MUJOCO_GL:-osmesa}"
 export PYOPENGL_PLATFORM="${PYOPENGL_PLATFORM:-osmesa}"
@@ -25,15 +30,15 @@ python train_embodied_agent.py \
   rollout.model.model_path="$MODEL_PATH" \
   runner.logger.log_path="$OUTPUT_DIR" \
   runner.logger.experiment_name=task6_pi05_ppo \
-  runner.max_epochs=20 \
-  runner.val_check_interval=5 \
-  runner.save_interval=5 \
-  env.train.total_num_envs=8 \
+  runner.max_epochs="$MAX_EPOCHS" \
+  runner.val_check_interval="$VAL_INTERVAL" \
+  runner.save_interval="$SAVE_INTERVAL" \
+  env.train.total_num_envs="$TRAIN_ENVS" \
   env.train.rollout_epoch=1 \
   +env.train.task_id_filter=[6] \
   env.train.video_cfg.save_video=false \
   env.eval.total_num_envs=10 \
   +env.eval.task_id_filter=[6] \
   env.eval.video_cfg.save_video=false \
-  actor.micro_batch_size=8 \
-  actor.global_batch_size=8
+  actor.micro_batch_size="$TRAIN_ENVS" \
+  actor.global_batch_size="$TRAIN_ENVS"

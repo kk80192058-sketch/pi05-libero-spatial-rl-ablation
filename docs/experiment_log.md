@@ -100,3 +100,24 @@ task 0 已饱和（10 / 10），不适合验证 PPO 的增益；task 6 的 60% �
 本次验证的最小参数为：8 个训练环境、1 个 rollout epoch、micro/global batch 均为 8、1 个训练 epoch、评测视频关闭。模型 actor 和 rollout 路径均正确指向 `RLinf-Pi05-LIBERO-SFT`，且 π0.5 actor 的 value head 正确启用。
 
 首次尝试传入重复的 `--config-path`，Hydra 将其拼成不存在的路径；切换到 `examples/embodiment` 工作目录后成功。这一问题已纳入运行脚本的目录处理。
+
+## 2026-08-10：A800 迁移与 PPO smoke run
+
+### A800 迁移验证
+
+- 硬件：1 × NVIDIA A800-SXM4-80GB、18 vCPU、120GB RAM、300GB 数据盘
+- 迁移目录：`/root/autodl-tmp/vla-rl`，迁移后大小约 36GB
+- PyTorch：CUDA 可用；`model.safetensors` 可读取 812 个 tensor
+
+### PPO smoke run（真实更新，不作结果比较）
+
+- task：6；训练环境数：2；rollout epoch：1；训练 epoch：1
+- 视频、checkpoint 和周期评测均关闭
+- 结果：2 条轨迹均至少成功一次；rollout 约 133 秒，actor 训练约 13 秒
+- 更新日志：`policy_loss=0.0091`、`approx_kl=-0.0058`、`grad_norm=57.274`、`value_loss=0.048`
+
+该 smoke run 的作用是确认 A800 上环境采样、PPO advantage/return、actor 与 critic 反向传播、权重同步均已真实执行；由于只有 1 epoch / 2 条轨迹，不能作为策略效果结论。
+
+### A800 训练前评估
+
+在相同 task 6 的 10-trial 协议下，本次采样得到 `success_once=0.8`、`success_at_end=0.4`。模型策略采样本身存在随机性，且成功后继续执行可使任务状态被扰动；项目将以 `success_once` 为主指标，并在正式前后用相同次数的重复评估报告均值，避免将单次 0.6 或 0.8 误写成稳定性能。
