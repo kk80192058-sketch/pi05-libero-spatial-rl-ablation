@@ -13,8 +13,10 @@
 - [x] 跑通 LIBERO-Spatial task 0 的完整 240-step SFT rollout。
 - [x] 建立 task 0、10 个初始状态的 SFT 小基线（10/10 成功）。
 - [x] 筛选出有提升空间的主任务：task 6 的 SFT 基线为 6/10 成功。
-- [ ] 下载 task 6 的少量 demonstration，用于检查数据链路与扩展实验。
+- [x] 下载 task 6 的全部 29 条 demonstration，并固定 20/9 train/holdout 划分。
+- [ ] 训练 task 6 的 20-demo few-shot SFT 策略。
 - [ ] 对 task 6 的 π0.5 SFT 策略执行 PPO 在线后训练。
+- [ ] 对 20-demo SFT 策略执行 PPO 在线后训练。
 - [ ] 比较 SFT-only 与 SFT + PPO 的成功率和样本效率。
 
 当前单条成功 rollout 仅用于验证链路，**不作为正式 benchmark 结果**。

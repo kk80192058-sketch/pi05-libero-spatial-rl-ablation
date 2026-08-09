@@ -51,6 +51,10 @@
 
 单次 π0.5 rollout 存在采样随机性，因此最终报告应对 pre-PPO 与 post-PPO 各执行多次 10-trial 评估，并报告均值、最小/最大值；不将单次结果表述为稳定 benchmark 分数。
 
+### 3.1 few-shot SFT 数据划分
+
+task 6 在公开数据集中有 29 条专家轨迹。为避免训练完成后再根据效果挑数据，使用固定随机种子 42 划分：20 条 train、9 条 holdout。具体 episode index 见 `docs/task6_20_9_split.csv`。holdout 轨迹不参与 SFT 参数更新，仅用于离线数据检查；主线上仍以仿真中的固定 10-trial protocol 评测策略。
+
 ## 4. 已验证结果
 
 | 阶段 | 条件 | 结果 | 解释 |
