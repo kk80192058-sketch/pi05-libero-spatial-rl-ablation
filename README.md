@@ -1,10 +1,10 @@
 # π0.5 LIBERO 单任务 SFT + PPO 后训练
 
-这是一个面向 VLA/RL 实习的最小可复现项目：在 LIBERO-Spatial 单任务中，先建立 π0.5 的 SFT 基线，再用少量 demonstration 构造低数据基线，并比较 PPO 在线后训练前后的成功率。
+这是一个面向 VLA/RL 实习的最小可复现项目：在 LIBERO-Spatial 单任务中，先建立 π0.5 的 SFT 基线，再对存在失败空间的任务进行 PPO 在线后训练，并比较训练前后的成功率。
 
 ## 项目问题
 
-少量 demonstration 下，π0.5 的 SFT 策略能否通过在线 PPO 的环境成功奖励提高任务完成率？
+在固定的 LIBERO-Spatial task 6 和评测协议下，π0.5 SFT 策略能否通过在线 PPO 的环境成功奖励提高任务完成率？
 
 ## 当前进度
 
@@ -12,12 +12,13 @@
 - [x] 下载并校验 `RLinf/RLinf-Pi05-LIBERO-SFT` 权重。
 - [x] 跑通 LIBERO-Spatial task 0 的完整 240-step SFT rollout。
 - [x] 建立 task 0、10 个初始状态的 SFT 小基线（10/10 成功）。
-- [ ] 训练少数据 SFT 策略。
-- [ ] 对少数据 SFT 策略执行 PPO 在线后训练。
+- [x] 筛选出有提升空间的主任务：task 6 的 SFT 基线为 6/10 成功。
+- [ ] 下载 task 6 的少量 demonstration，用于检查数据链路与扩展实验。
+- [ ] 对 task 6 的 π0.5 SFT 策略执行 PPO 在线后训练。
 - [ ] 比较 SFT-only 与 SFT + PPO 的成功率和样本效率。
 
 当前单条成功 rollout 仅用于验证链路，**不作为正式 benchmark 结果**。
-当前的 10-trial 结果同样只覆盖 Spatial 的 task 0；后续会扩展到更多 task，不能表述为整个 benchmark 的成绩。
+当前的 10-trial 结果只覆盖指定 Spatial 子任务，不能表述为整个 benchmark 的成绩。
 
 ## 结构
 

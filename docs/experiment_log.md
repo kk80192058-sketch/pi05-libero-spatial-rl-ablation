@@ -60,3 +60,35 @@
 ### 解释与边界
 
 这个 checkpoint 在该小协议下稳定完成了 task 0，故可作为后续“少数据 SFT”与“PPO 后训练”的对照项。它不说明其余 9 个 Spatial task 的表现，也不等价于官方 benchmark 汇总成绩。
+
+## 2026-08-09：主任务筛选与 task 6 基线
+
+### 筛选
+
+对 Spatial 的 10 个 task 各取 trial 0、并行评测后，公开 SFT checkpoint 的汇总成功率为 8 / 10。task 6 和 task 9 失败，其余 task 成功。
+
+### task 6 固定基线
+
+- task：`6`
+- trial：`0`–`9`
+- 最大步数：240
+- 评估轨迹数：10
+- seed：0
+- renderer：OSMesa，视频关闭
+
+结果为 **6 / 10 = 60%** 成功：trial `0, 1, 6, 8` 失败，trial `2, 3, 4, 5, 7, 9` 成功。
+
+### 项目决策
+
+task 0 已饱和（10 / 10），不适合验证 PPO 的增益；task 6 的 60% 基线提供了明确的改善空间。因此后续 PPO 实验固定使用 task 6 和上述 10-trial 协议。这个选择来自实际基线测量，而不是事后挑选单条成功视频。
+
+## 2026-08-09：task 6 demonstration 子集
+
+从 `physical-intelligence/libero` 的 LeRobot 数据集中仅下载了 task 6 的 10 条专家轨迹，作为数据链路验证与后续少数据扩展实验的数据子集。数据目录不提交至 Git，仅记录来源与索引。
+
+- 任务语言：`put both moka pots on the stove`
+- episode index：`10, 20, 23, 46, 51, 54, 57, 67, 70, 73`
+- 每条轨迹：359–455 frames
+- 本地服务器目录：`/root/autodl-tmp/vla-rl/data/libero_spatial_task6_10demos`
+
+注：数据集的 episode 编号按任务交错，而非“前 10 条都属于 task 0”。此前下载的 `episode_000000`–`episode_000009` 是混合格式检查样本，不能作为 task 0 的十条 demonstration。
