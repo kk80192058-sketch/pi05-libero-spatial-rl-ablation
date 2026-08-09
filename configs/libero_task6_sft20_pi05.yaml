@@ -64,7 +64,10 @@ actor:
     total_training_steps: 500
   fsdp_config:
     strategy: fsdp
-    sharding_strategy: full_shard
+    # One GPU does not need parameter sharding.  `no_shard` matches RLinf's
+    # official single-GPU π0.5 SFT recipe and avoids an FSDP/view interaction
+    # inside the OpenPI action expert during backward.
+    sharding_strategy: no_shard
     use_orig_params: false
     gradient_checkpointing: false
     mixed_precision:
