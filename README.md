@@ -40,6 +40,12 @@
 
 RLinf 默认只能从 task 的第一个 reset state 开始顺序评测。本项目用 `patches/rlinf_eval_reset_offset.patch` 增加了只影响评测起点的 `eval_reset_start_idx`；不改环境、模型或奖励。`scripts/run_libero_task_window_eval.sh` 是对应的可复现启动脚本。
 
+全部任务日志完成后，用下列命令生成按 `success_once` 从低到高排序的诊断表：
+
+```bash
+python scripts/collect_spatial_diagnostic.py /path/to/spatial_diagnostic_a0_seen results/spatial_seen_diagnostic.csv
+```
+
 ## 结构
 
 ```text
