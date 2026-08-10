@@ -119,7 +119,7 @@ results/       可提交的小型指标汇总 CSV
 scripts/       数据准备、评测、SFT、PPO 启动脚本
 ```
 
-面试准备可直接阅读 [通俗讲解与追问稿](docs/interview_guide.md)；完整的正式实验叙述和最终表格在 [task 9 最终报告](docs/task9_final_report.md)。
+面试准备可直接阅读 [通俗讲解与追问稿](docs/interview_guide.md)；完整的正式实验叙述和最终表格在 [task 9 最终报告](docs/task9_final_report.md)。可直接查看 [同一场景 A0 vs B20 对照视频](assets/videos/task9_bowl/comparison_a0_vs_b20_same_reset.mp4)（左侧基础模型失败、右侧 B20 成功）和 [B20 未见场景成功视频](assets/videos/task9_bowl/b20_unseen_success_slow.mp4)。
 
 ## 结果口径与限制
 
