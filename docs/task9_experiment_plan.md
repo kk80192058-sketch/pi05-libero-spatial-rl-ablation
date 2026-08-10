@@ -19,7 +19,7 @@
 
 ## 固定项
 
-- 20 条 train demonstration，由 task 9 的 41 条可用 demonstration 按 seed 42 固定划分；其余 21 条不参与 SFT。
+- 20 条 train demonstration，由 task 9 的 44 条可用 demonstration 按 seed 42 固定划分；其余 24 条不参与 SFT。
 - SFT：500 steps，batch size 8，learning rate `5e-6`。
 - PPO：10 epochs、8 个训练环境，其他参数由同一 RLinf config 提供。
 - 每个组别在 reset 0–9 和 10–19 各评测 10 条，每条最多 240 environment steps。
@@ -32,8 +32,8 @@
 | 10 task 基线筛查 | 完成 | 见 `results/spatial_seen_diagnostic.csv` |
 | A0 task 9，窗口 0–9 | 完成 | `success_once=30% (3/10)` |
 | A0 task 9，窗口 10–19 | 完成 | `success_once=30% (3/10)` |
-| B20/C20 演示数据 | 重新准备 | 必须按 benchmark 任务文本匹配综合数据集，而非复用数值 index |
-| B20 SFT / C20 PPO | 待重新运行 | 不引用此前错误任务映射产生的数值 |
+| B20 演示数据与 SFT | 完成 | 44 条可用演示中固定抽取 20 条；500-step SFT 已完成 |
+| C20 PPO | 进行中 | 从正确 B20 checkpoint 启动；不引用此前错误任务映射产生的数值 |
 | A1 PPO | 完成 | 仅 PPO，不依赖演示数据映射 |
 
 没有从未完成的实验推断或填写性能数字。发现综合演示集（40 task）与 LIBERO-Spatial benchmark（10 task）的数值编号不一致后，先前的 B20/C20 运行被标记为无效，不进入最终报告；最终报告将链接到正确数据与对应日志目录。
