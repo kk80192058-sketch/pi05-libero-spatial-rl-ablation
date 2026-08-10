@@ -6,7 +6,7 @@
 
 不再随意挑单一任务。先以相同协议筛查全部 10 个 LIBERO-Spatial task，再选择基础成功率最低且未饱和的 task 9：
 
-> `pick up the book and place it in the back compartment of the caddy`
+> `pick up the black bowl on the wooden cabinet and place it on the plate`
 
 固定评测协议：每个窗口 10 条轨迹、每条最多 240 个环境步；窗口 `0–9` 与 `10–19` 互不重叠。`success_once`（轨迹中曾完成任务）为主指标，`success_at_end`（最后一步仍完成）为辅助指标。
 
@@ -30,7 +30,7 @@
 | B20 | A0 | 20 条 task 9 演示 | 否 | 单独衡量少样本 SFT |
 | C20 | B20 | 已完成 | 是 | 衡量 SFT+PPO 组合 |
 
-所有组别都会在两个 reset 窗口分别评测，最终报告只填写实际日志产生的结果。当前已完成 A0；B20 的 500-step SFT 已结束，正在做 checkpoint 复测；A1、C20 将在此后依次训练。
+所有组别都会在两个 reset 窗口分别评测，最终报告只填写实际日志产生的结果。A0 与 A1 已完成；B20/C20 正在使用与该 benchmark 指令严格匹配的演示数据重新运行。
 
 ## 环境与资源
 
@@ -112,4 +112,5 @@ scripts/       数据准备、评测、SFT、PPO 启动脚本
 
 - `n/10` 同时写为百分比，例如 `30%（3/10）`；不能把单条视频当 benchmark。
 - 10 条轨迹的方差仍较大，最终报告会明确样本数和限制，而不把单次结果包装为通用能力结论。
+- 演示数据按 LIBERO-Spatial 的语言指令匹配，而不是直接复用综合 40-task 数据集的数值索引。
 - 10-task 筛查表保留每个 task 的结果，作为 task 9 被选为主实验任务的依据；它不是对其他 task 的训练结论。

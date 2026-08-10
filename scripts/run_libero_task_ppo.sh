@@ -38,3 +38,12 @@ python train_embodied_agent.py \
   env.eval.video_cfg.save_video=false \
   actor.micro_batch_size="$TRAIN_ENVS" \
   actor.global_batch_size="$TRAIN_ENVS"
+
+# PPO checkpoints contain learned weights but not OpenPI's immutable action
+# normalization assets. Keep every saved actor checkpoint independently
+# evaluable and usable as a later initialization (for example C20).
+norm_source="$MODEL_PATH/physical-intelligence"
+[[ -d "$norm_source/libero" ]] || { echo "Missing $norm_source/libero" >&2; exit 3; }
+while IFS= read -r actor_dir; do
+  [[ -d "$actor_dir/physical-intelligence/libero" ]] || cp -a "$norm_source" "$actor_dir/"
+done < <(find "$OUTPUT_DIR" -type d -path '*/checkpoints/global_step_*/actor' | sort)

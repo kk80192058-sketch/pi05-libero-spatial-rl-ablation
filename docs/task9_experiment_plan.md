@@ -4,7 +4,7 @@
 
 先在公开 π0.5 LIBERO SFT checkpoint 上，用相同的 10-trial / 240-step 协议评测全部 10 个 LIBERO-Spatial task。task 9 在窗口 0–9 的 `success_once=30% (3/10)`，低于其余所有任务；在完全分离的窗口 10–19 上也为 `30% (3/10)`。因此它被预先指定为主实验任务，而不是根据训练结果事后选择。
 
-任务文本：`pick up the book and place it in the back compartment of the caddy`。
+任务文本：`pick up the black bowl on the wooden cabinet and place it on the plate`。
 
 ## 因子与组别
 
@@ -32,9 +32,8 @@
 | 10 task 基线筛查 | 完成 | 见 `results/spatial_seen_diagnostic.csv` |
 | A0 task 9，窗口 0–9 | 完成 | `success_once=30% (3/10)` |
 | A0 task 9，窗口 10–19 | 完成 | `success_once=30% (3/10)` |
-| B20 数据准备 | 完成 | 20 条训练轨迹，3,586 frames |
-| B20 SFT | 完成 | 500 steps，checkpoint 在 250 / 500 steps 保存 |
-| B20 复测 | 进行中 | 不预填性能结果 |
-| A1 PPO / C20 PPO | 待运行 | 不预填性能结果 |
+| B20/C20 演示数据 | 重新准备 | 必须按 benchmark 任务文本匹配综合数据集，而非复用数值 index |
+| B20 SFT / C20 PPO | 待重新运行 | 不引用此前错误任务映射产生的数值 |
+| A1 PPO | 完成 | 仅 PPO，不依赖演示数据映射 |
 
-没有从未完成的实验推断或填写性能数字。最终报告将链接到对应的日志目录与 checkpoint。
+没有从未完成的实验推断或填写性能数字。发现综合演示集（40 task）与 LIBERO-Spatial benchmark（10 task）的数值编号不一致后，先前的 B20/C20 运行被标记为无效，不进入最终报告；最终报告将链接到正确数据与对应日志目录。
