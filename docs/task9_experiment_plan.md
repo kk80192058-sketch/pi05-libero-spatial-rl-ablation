@@ -32,8 +32,8 @@
 | 10 task 基线筛查 | 完成 | 见 `results/spatial_seen_diagnostic.csv` |
 | A0 task 9，窗口 0–9 | 完成 | `success_once=30% (3/10)` |
 | A0 task 9，窗口 10–19 | 完成 | `success_once=30% (3/10)` |
-| B20 演示数据与 SFT | 完成 | 44 条可用演示中固定抽取 20 条；500-step SFT 已完成 |
-| C20 PPO | 进行中 | 从正确 B20 checkpoint 启动；不引用此前错误任务映射产生的数值 |
+| B20 演示数据与 SFT | 完成 | 44 条可用演示中固定抽取 20 条；500-step SFT 的 seen/unseen 分别为 70% / 80% |
+| C20 PPO | 完成 | 从正确 B20 checkpoint 做 10 epoch PPO；seen/unseen 均为 10%，保留为负向消融 |
 | A1 PPO | 完成 | 仅 PPO，不依赖演示数据映射 |
 
-没有从未完成的实验推断或填写性能数字。发现综合演示集（40 task）与 LIBERO-Spatial benchmark（10 task）的数值编号不一致后，先前的 B20/C20 运行被标记为无效，不进入最终报告；最终报告将链接到正确数据与对应日志目录。
+没有从未完成的实验推断或填写性能数字。发现综合演示集（40 task）与 LIBERO-Spatial benchmark（10 task）的数值编号不一致后，先前的 B20/C20 运行被标记为无效并已删除；本报告只使用按任务文本正确匹配后重新运行的日志。
