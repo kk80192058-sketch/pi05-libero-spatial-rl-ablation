@@ -13,7 +13,7 @@ MAX_EPOCHS="${MAX_EPOCHS:-10}"
 VAL_INTERVAL="${VAL_INTERVAL:-5}"
 SAVE_INTERVAL="${SAVE_INTERVAL:-5}"
 TRAIN_ENVS="${TRAIN_ENVS:-8}"
-export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
+export HF_ENDPOINT="${HF_ENDPOINT:-https://huggingface.co}"
 export MUJOCO_GL="${MUJOCO_GL:-osmesa}"
 export PYOPENGL_PLATFORM="${PYOPENGL_PLATFORM:-osmesa}"
 

@@ -9,7 +9,7 @@ set -euo pipefail
 : "${RESET_START:?Set RESET_START to the ordered reset state id}"
 : "${OUTPUT_DIR:?Set OUTPUT_DIR for log and MP4}"
 
-export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
+export HF_ENDPOINT="${HF_ENDPOINT:-https://huggingface.co}"
 export MUJOCO_GL="${MUJOCO_GL:-egl}"
 export PYOPENGL_PLATFORM="${PYOPENGL_PLATFORM:-egl}"
 export EMBODIED_PATH="$RLINF_DIR/examples/embodiment"

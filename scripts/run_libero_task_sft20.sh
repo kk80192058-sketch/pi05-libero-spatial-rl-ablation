@@ -12,7 +12,7 @@ set -euo pipefail
 EXPERIMENT_NAME="${EXPERIMENT_NAME:-task_sft20}"
 MAX_STEPS="${MAX_STEPS:-500}"
 SAVE_INTERVAL="${SAVE_INTERVAL:-250}"
-export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
+export HF_ENDPOINT="${HF_ENDPOINT:-https://huggingface.co}"
 export MUJOCO_GL="${MUJOCO_GL:-osmesa}"
 export PYOPENGL_PLATFORM="${PYOPENGL_PLATFORM:-osmesa}"
 

@@ -25,6 +25,11 @@ tensorboard/
 *.ckpt
 *.mp4
 
+# Local presentation exports and unrelated local workspaces
+.tmp_interview_ppt_v2/
+deliverables/
+lingbot-va-closed-loop-diagnostics/
+
 # Credentials
 .env
 *.pem

@@ -42,13 +42,12 @@ def main() -> None:
                 "success_once": float(success_once),
                 "success_at_end": float(success_at_end) if success_at_end else "",
                 "reward": float(reward) if reward else "",
-                "log": str(log_path),
             }
         )
 
     rows.sort(key=lambda row: (row["success_once"], row["task_id"]))
     with Path(sys.argv[2]).open("w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["task_id", "reset_window", "success_once", "success_at_end", "reward", "log"])
+        writer = csv.DictWriter(f, fieldnames=["task_id", "reset_window", "success_once", "success_at_end", "reward"])
         writer.writeheader()
         writer.writerows(rows)
     print(f"Wrote {len(rows)} task results to {sys.argv[2]}")
