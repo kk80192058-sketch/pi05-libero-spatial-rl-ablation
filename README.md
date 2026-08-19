@@ -137,16 +137,15 @@ python scripts/plot_task9_ablation.py \
 
 ```text
 assets/figures/     最终消融图
-assets/videos/      两段面试展示视频
+assets/videos/      两段定性展示视频
 configs/            固定的 20-demo SFT 配方
-docs/               最终实验报告与中文面试讲解稿
+docs/               最终实验报告
 patches/            RLinf 的最小 reset-window 评测补丁
 results/            可审阅的最终指标 CSV
 scripts/            数据映射、SFT、PPO、评测、汇总与绘图脚本
 ```
 
 - 想先看实验叙述与限制：阅读 [最终实验报告](docs/task9_final_report.md)。
-- 想准备面试：阅读 [中文讲解与高频追问](docs/interview_guide.md)。
 - 想检查数据映射：阅读 [下载与文本匹配脚本](scripts/download_libero_spatial_task_demos.py)。
 - 想复查评测窗口实现：阅读 [reset-window 补丁](patches/rlinf_eval_reset_offset.patch)。
 
